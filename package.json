@@ -1,0 +1,26 @@
+{
+  "name": "prototype-starter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nonphoto/prototype-starter.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nonphoto/prototype-starter/issues"
+  },
+  "homepage": "https://github.com/nonphoto/prototype-starter#readme",
+  "devDependencies": {
+    "servor": "^3.1.0",
+    "snowpack": "^1.1.2"
+  },
+  "dependencies": {
+    "framesync": "^4.0.4"
+  }
+}
