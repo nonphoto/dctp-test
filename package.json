@@ -1,17 +1,19 @@
 {
   "name": "prototype-starter",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A bundler-free starter project for web prototypes.",
+  "main": "main.js",
+  "module": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "servor --reload",
+    "prepare": "snowpack"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nonphoto/prototype-starter.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Jonas Luebbers",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/nonphoto/prototype-starter/issues"
   },
