@@ -23,6 +23,15 @@
     "snowpack": "^1.1.2"
   },
   "dependencies": {
+    "@funkia/hareactive": "^0.4.0",
+    "@funkia/io": "0.0.5",
     "framesync": "^4.0.4"
+  },
+  "snowpack": {
+    "webDependencies": [
+      "@funkia/hareactive",
+      "@funkia/hareactive/dom",
+      "@funkia/io"
+    ]
   }
 }
