@@ -1,8 +1,11 @@
+import sync from "/web_modules/framesync.js";
+
 import {
   stepperFrom,
   sample,
   lift,
-  Behavior
+  Behavior,
+  fromFunction
 } from "/web_modules/@funkia/hareactive.js";
 
 import {
@@ -11,9 +14,11 @@ import {
 } from "/web_modules/@funkia/hareactive/dom.js";
 
 export default (onRender, canvas) => {
+  const width = canvas.clientWidth;
+  const height = canvas.clientHeight;
   const pixelRatio = window.devicePixelRatio || 1;
-  canvas.width = canvas.clientWidth * pixelRatio;
-  canvas.height = canvas.clientHeight * pixelRatio;
+  canvas.width = width * pixelRatio;
+  canvas.height = height * pixelRatio;
 
   const bounds = canvas.getBoundingClientRect();
 
@@ -30,14 +35,17 @@ export default (onRender, canvas) => {
     )
   ).run();
 
-  const renderB = onRender({ mouse });
+  const user = {
+    mouse,
+    width,
+    height
+  };
 
-  renderBehavior(image => {
-    context.fillStyle = "white";
-    context.fillRect(0, 0, canvas.width, canvas.height);
+  sync.render(() => {
+    const image = onRender(user).at();
     context.fillStyle = "black";
     image(context);
-  }, renderB);
+  }, true);
 };
 
 export const rectangle = Behavior.of(context => context.fillRect(0, 0, 1, 1));
@@ -81,3 +89,25 @@ export const move = (vB, imageB) => {
     imageB
   );
 };
+
+export const over = (image1B, image2B) => {
+  return lift(
+    (image1, image2) => context => {
+      image1(context);
+      image2(context);
+    },
+    image1B,
+    image2B
+  );
+};
+
+export const clear = ({ width, height }, cB, imageB) =>
+  fill(
+    cB,
+    over(
+      Behavior.of(context => context.fillRect(0, 0, width, height)),
+      imageB
+    )
+  );
+
+// export const wiggle = fromFunction(() =>
