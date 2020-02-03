@@ -37,8 +37,7 @@ export default (onRender, canvas) => {
 
   const user = {
     mouse,
-    width,
-    height
+    size: Behavior.of([width, height])
   };
 
   sync.render(() => {
@@ -63,15 +62,16 @@ export const fill = (cB, imageB) => {
   );
 };
 
-export const scale = (sB, imageB) => {
+export const scale = (vB, imageB) => {
   return lift(
-    (s, image) => context => {
+    (v, image) => context => {
+      const [w, h] = v;
       context.save();
-      context.scale(s, s);
+      context.scale(w, h);
       image(context);
       context.restore();
     },
-    sB,
+    vB,
     imageB
   );
 };
@@ -100,14 +100,5 @@ export const over = (image1B, image2B) => {
     image2B
   );
 };
-
-export const clear = ({ width, height }, cB, imageB) =>
-  fill(
-    cB,
-    over(
-      Behavior.of(context => context.fillRect(0, 0, width, height)),
-      imageB
-    )
-  );
 
 // export const wiggle = fromFunction(() =>
