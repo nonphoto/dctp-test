@@ -10,9 +10,8 @@ import {
   render as renderBehavior
 } from "/web_modules/@funkia/hareactive/dom.js";
 
-export default (onRender, selector) => {
+export default (onRender, canvas) => {
   const pixelRatio = window.devicePixelRatio || 1;
-  const canvas = document.querySelector(selector);
   canvas.width = canvas.clientWidth * pixelRatio;
   canvas.height = canvas.clientHeight * pixelRatio;
 
@@ -31,17 +30,30 @@ export default (onRender, selector) => {
     )
   ).run();
 
-  const behavior = onRender({ mouse });
+  const renderB = onRender({ mouse });
 
   renderBehavior(image => {
     context.fillStyle = "white";
     context.fillRect(0, 0, canvas.width, canvas.height);
     context.fillStyle = "black";
     image(context);
-  }, behavior);
+  }, renderB);
 };
 
 export const rectangle = Behavior.of(context => context.fillRect(0, 0, 1, 1));
+
+export const fill = (cB, imageB) => {
+  return lift(
+    (c, image) => context => {
+      context.save();
+      context.fillStyle = c;
+      image(context);
+      context.restore();
+    },
+    cB,
+    imageB
+  );
+};
 
 export const scale = (sB, imageB) => {
   return lift(
