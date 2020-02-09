@@ -1,5 +1,7 @@
 import sync from "/web_modules/framesync.js";
 
+import { interpolate } from "/web_modules/@popmotion/popcorn.js";
+
 import {
   stepperFrom,
   sample,
@@ -8,12 +10,15 @@ import {
   fromFunction
 } from "/web_modules/@funkia/hareactive.js";
 
-import {
-  streamFromEvent,
-  render as renderBehavior
-} from "/web_modules/@funkia/hareactive/dom.js";
+import { streamFromEvent } from "/web_modules/@funkia/hareactive/dom.js";
 
-export const transform = (startRange, endRange, value) => {};
+export const lerp = (startRangeB, endRangeB, valueB) =>
+  lift(
+    (startRange, endRange, value) => interpolate(startRange, endRange)(value),
+    startRangeB,
+    endRangeB,
+    valueB
+  );
 
 export default (onRender, canvas) => {
   const width = canvas.clientWidth;
@@ -37,19 +42,38 @@ export default (onRender, canvas) => {
     )
   ).run();
 
+  const size = Behavior.of([width, height]);
+
+  const xRange = Behavior.of([0, width]);
+
+  const yRange = Behavior.of([0, height]);
+
   const user = {
     mouse,
-    size: Behavior.of([width, height])
+    size,
+    xRange,
+    yRange
   };
 
+  const imageBehavior = onRender(user);
+
   sync.render(() => {
-    const image = onRender(user).at();
+    const image = imageBehavior.at();
     context.fillStyle = "black";
     image(context);
   }, true);
 };
 
-export const rectangle = Behavior.of(context => context.fillRect(0, 0, 1, 1));
+export const shape = (name, ...args) =>
+  Behavior.of(context => {
+    context.beginPath();
+    context[name](...args);
+    context.fill();
+  });
+
+export const square = shape("rect", 0, 0, 1, 1);
+
+export const circle = shape("ellipse", 0, 0, 1, 1);
 
 export const fill = (cB, imageB) => {
   return lift(

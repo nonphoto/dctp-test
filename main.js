@@ -9,18 +9,21 @@ import render, {
   waggle,
   scale,
   fill,
-  rectangle,
-  over
+  square,
+  over,
+  lerp
 } from "/render.js";
 
+const b = a => Behavior.of(a);
+
 render(
-  ({ mouse, size }) =>
+  ({ mouse, size, xRange, yRange }) =>
     over(
-      scale(size, fill(Behavior.of("white"), rectangle)),
+      scale(size, fill(b("white"), square)),
       moveXY(
-        wiggle.map(x => x * 100),
-        waggle.map(x => x * 100),
-        scale(Behavior.of([10, 10]), fill(Behavior.of("red"), rectangle))
+        lerp(b([-1, 1]), xRange, wiggle),
+        lerp(b([-1, 1]), yRange, waggle),
+        scale(b([100, 100]), fill(b("red"), square))
       )
     ),
   document.querySelector("canvas")
