@@ -73,7 +73,7 @@ export const shape = (name, ...args) =>
 
 export const square = shape("rect", 0, 0, 1, 1);
 
-export const circle = shape("ellipse", 0, 0, 1, 1);
+export const circle = shape("ellipse", 0, 0, 0.5, 0.5, 0, 0, 2 * Math.PI);
 
 export const fill = (cB, imageB) => {
   return lift(
@@ -130,14 +130,12 @@ export const moveXY = (xB, yB, imageB) => {
   );
 };
 
-export const over = (image1B, image2B) => {
+export const over = (...behaviors) => {
   return lift(
-    (image1, image2) => context => {
-      image1(context);
-      image2(context);
+    (...images) => context => {
+      images.forEach(image => image(context));
     },
-    image1B,
-    image2B
+    ...behaviors
   );
 };
 

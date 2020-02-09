@@ -10,6 +10,7 @@ import render, {
   scale,
   fill,
   square,
+  circle,
   over,
   lerp
 } from "/render.js";
@@ -24,6 +25,11 @@ render(
         lerp(b([-1, 1]), xRange, wiggle),
         lerp(b([-1, 1]), yRange, waggle),
         scale(b([100, 100]), fill(b("red"), square))
+      ),
+      moveXY(
+        lerp(b([-1, 1]), xRange, waggle),
+        lerp(b([-1, 1]), yRange, wiggle),
+        scale(b([100, 100]), fill(b("blue"), circle))
       )
     ),
   document.querySelector("canvas")
