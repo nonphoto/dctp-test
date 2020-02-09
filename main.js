@@ -2,19 +2,28 @@ import sync from "/web_modules/framesync.js";
 
 import { Behavior } from "/web_modules/@funkia/hareactive.js";
 
-import render, { move, scale, fill, rectangle, over } from "/render.js";
+import render, {
+  move,
+  moveXY,
+  wiggle,
+  waggle,
+  scale,
+  fill,
+  rectangle,
+  over
+} from "/render.js";
 
-const canvas = document.querySelector("canvas");
 render(
   ({ mouse, size }) =>
     over(
       scale(size, fill(Behavior.of("white"), rectangle)),
-      move(
-        mouse,
+      moveXY(
+        wiggle.map(x => x * 100),
+        waggle.map(x => x * 100),
         scale(Behavior.of([10, 10]), fill(Behavior.of("red"), rectangle))
       )
     ),
-  canvas
+  document.querySelector("canvas")
 );
 
 /*

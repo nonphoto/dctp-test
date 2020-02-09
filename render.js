@@ -13,6 +13,8 @@ import {
   render as renderBehavior
 } from "/web_modules/@funkia/hareactive/dom.js";
 
+export const transform = (startRange, endRange, value) => {};
+
 export default (onRender, canvas) => {
   const width = canvas.clientWidth;
   const height = canvas.clientHeight;
@@ -90,6 +92,20 @@ export const move = (vB, imageB) => {
   );
 };
 
+export const moveXY = (xB, yB, imageB) => {
+  return lift(
+    (x, y, image) => context => {
+      context.save();
+      context.translate(x, y);
+      image(context);
+      context.restore();
+    },
+    xB,
+    yB,
+    imageB
+  );
+};
+
 export const over = (image1B, image2B) => {
   return lift(
     (image1, image2) => context => {
@@ -101,4 +117,8 @@ export const over = (image1B, image2B) => {
   );
 };
 
-// export const wiggle = fromFunction(() =>
+export const time = fromFunction(() => performance.now());
+
+export const wiggle = time.map(t => Math.sin(t * Math.PI * 0.001));
+
+export const waggle = time.map(t => Math.cos(t * Math.PI * 0.001));

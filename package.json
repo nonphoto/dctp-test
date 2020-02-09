@@ -25,13 +25,15 @@
   "dependencies": {
     "@funkia/hareactive": "^0.4.0",
     "@funkia/io": "0.0.5",
+    "@popmotion/popcorn": "^0.4.4",
     "framesync": "^4.0.4"
   },
   "snowpack": {
     "webDependencies": [
       "@funkia/hareactive",
       "@funkia/hareactive/dom",
-      "@funkia/io"
+      "@funkia/io",
+      "@popmotion/popcorn"
     ]
   }
 }
