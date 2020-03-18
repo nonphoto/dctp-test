@@ -23,6 +23,8 @@
     "snowpack": "^1.1.2"
   },
   "dependencies": {
-    "framesync": "^4.0.4"
+    "framesync": "^4.0.4",
+    "react": "npm:@pika/react@^16.13.1",
+    "react-dom": "npm:@pika/react-dom@^16.13.1"
   }
 }
